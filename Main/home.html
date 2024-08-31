@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@400;500;700;800&display=swap');
+*{padding:0;
+    margin: 0;
+    font-family: "Quicksand",sans-serif;    
+    }
+    body{
+        background-color: rgb(92, 197, 239);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        }
+    html,body{
+        font-size: 62.5%;
+        height: 100%;
+    }
+    .container{
+    width: 25vw;
+    height:70vh;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.2rem 3rem rgba(0,0,0,0.2);
+    background: skyblue;
+    position: relative;
+    overflow: hidden;
+    transform: translate3d(0,0,0);
+    min-width:20rem;
+    min-height: 35rem;
+    
+    }
+    .wave{
+    opacity: 0.3;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    background: #fff;
+    width: 50rem;
+    height: 50rem;
+    margin-left: -25rem;
+    margin-top: -25rem;
+    transform-origin:50% 48% ;
+    border-radius: 43%;
+    animation: drift 3000ms infinite linear;
+    z-index: -1;
+    }
+    .wave.-three{
+    animation: drift 5000ms, infinite linear;
+    z-index: 2!important;
+    opacity: 0.2;
+    }
+    .wave.-two{
+    animation: drift 7000ms, infinite linear;
+    z-index: 3!important;
+    opacity: 0.1;
+    }
+    .container:after{
+    content: "";
+    display: block;
+    left:0;
+    top:0;
+    width:100%;
+    height: 100%;
+    z-index: 11;
+    transform: translate3d(0,0,0);
+    }
+    @keyframes drift{
+    from{
+    transform: rotate(0deg);
+    
+    }
+    to{transform: rotate(360deg);}
+    }
+    .details{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 45%;
+    z-index:4;
+    }
+    .location{
+    margin-top: 1.5rem;
+    text-align: center;
+    font-weight: 800;
+    font-size: 3rem;
+    font-weight: 600;
+    }
+    .fa-location-dot{
+    animation: rotates 5s linear infinite ease;
+    }
+    @keyframes rotates{
+    from{
+    transform: translatex(-0.5rem);  
+    }
+    to{
+    transform: translatex(0.5rem);  
+    }
+    }
+    
+    #date{
+    text-align: center;
+    margin-top: 0.5rem;
+    color: #57606f;
+    font-size: 1.2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    }
+    .temp{
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: 5rem;
+    }
+    .temp_min-max{
+    text-align: center;
+    margin-top: 0.3rem;
+    font-weight:300 ;
+    font-size: 1.2rem;
+    color: #57606f;
+    
+    }
+    #weather{
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8em;
+    }
+    #weather .fas{
+    font-size: 6rem;
+    animation: fas-anime 3s linear infinite alternate;
+    }
+    @keyframes fas-anime {
+    from {
+    transform: scale (0.8);
+    }
+    to {
+    transform: scale (1.5);
+    }
+    }
+
+    /* Media Screen*/
+    @media (max-width:600px) {
+    .container{
+    width: 80vw;
+    height: 80vh;
+    }
+    .wave {
+    top:85%;
+    }
+    #weather {
+    font-size:5em;
+    }
+    }
+    @media (max-width:500px) {
+    .container{
+    height: 80vh;
+    }
+    .wave{
+    top:100%;
+    }
+    }
+    body > span {
+    width: 100vw;
+    text-align: center;
+    color: gray;
+    }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <div class="wave -one"></div>
+        <div class="wave -two"></div>
+        <div class="wave -three"></div>
+
+        <div id="weather">
+            <i class="fas fa-solid fa-sun" style="color: yellow;"></i>
+        </div>
+
+        <class class="details">
+            <h2 class="location"><i class="fa-solid fa-location-dot" style="color: rgb(15, 176, 245);"></i> {%location%}, {%country%}</h2>
+            <p id="date">FRI | 30 AUG | 2:00 PM</p>
+            <h1 class="temp">{%tempVal%}</h1>
+            <p class="temp_min-max">Min : {%temp-min%} | Max : {%temp-max%} </p>
+        </class>
+    </div>
+    //<script src="movement.js"></script>
+    <script>
+        const currDate = document.getElementById("date");
+let weathers = document.getElementById("weather");
+//const tempStatus = "clouds";
+
+// Get the Current Day
+const getCurrDay = () => {
+    var weekday = new Array(7);
+    weekday[0] = "Sun";
+    weekday[1] = "Mon";
+    weekday[2] = "Tue";
+    weekday[3] = "Wed";
+    weekday[4] = "Thr";
+    weekday[5] = "Fri";
+    weekday[6] = "Sat";
+
+    let currentDay = new Date();
+   // console.log(weekday[currentDay.getDay()]);
+   let day = weekday[currentDay.getDay()];
+   return day;
+};
+//getCurrDay();
+
+
+// Get Curr Date
+const getCurrTime = () => {
+    var months = new Array(12);
+    months[0] = "Jan";
+    months[1] = "Feb";
+    months[2] = "Mar";
+    months[3] = "Apr";
+    months[4] = "Jun";
+    months[5] = "Jul";
+    months[6] = "Aug";
+    months[7] = "Sep";
+    months[8] = "Oct";
+    months[10] = "Nov";
+    months[11] = "Dec";
+
+    let currentTime = new Date();
+    var month = months[currentTime.getMonth() + 1];  // +1 because in js month is started at 0;
+    var date = currentTime.getDate();
+    var year = currentTime.getFullYear();
+    //console.log( month + "/" + year);
+
+    // Get curr Time
+    let hours =  currentTime.getHours();
+    let mins = currentTime.getMinutes();
+
+    // formatting
+    let period = "AM";
+    if(hours > 11){
+        period = "PM";   // change am to pm
+        if(hours > 12)  {// here hours is 12 +1 = 13 in afternoon. so show it as 1....
+            hours = hours - 12;  // 13-12 = 1 .
+        }
+    }
+    if(mins < 10){
+        mins = "0" + mins;   // add 0 like 5min so show this as 05.
+    }
+
+    //console.log( hours + ":" + mins);
+    return `${date} ${month} | ${hours} : ${mins} ${period}`;
+};
+// getCurrTime();
+
+// call both getCurrTime() and getCurrDay().
+currDate.innerHTML= getCurrDay() + " | " + getCurrTime();
+    </script>
+</body>
+</html>
