@@ -1,0 +1,14 @@
+{
+  "name": "weather-app-node-js",
+  "version": "1.0.0",
+  "description": "create a weather app using nodejs along with Api.",
+  "main": "weather.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "harshita",
+  "license": "ISC",
+  "dependencies": {
+    "requests": "^0.3.0"
+  }
+}
